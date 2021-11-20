@@ -20,6 +20,19 @@ const SetConnectionsString = (envName, connectionString) => {
     fs.writeFileSync(defaultConfigPath, JSON.stringify(config, null, 4), );
   };
 
+  // const ListConfiguredConnections = ({configPath = defaultConfigPath}) => {
+  //   try {
+  //     if (fs.existsSync(configPath)) {
+  //       const configData = fs.readFileSync(configPath);
+  //       const loadedConfig = JSON.parse(configData);
+  //       const configKeys =  Object.keys(loadedConfig);
+  //       console.log(`Available configs: ${configKeys}`)
+  //     }
+  //   } catch(err) {
+  //     throw new Error('Required');
+  //   }
+  // }
+
   const ListConfiguredConnections = ({configPath = defaultConfigPath}) => {
     try {
       if (fs.existsSync(configPath)) {

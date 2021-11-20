@@ -13,7 +13,9 @@
         "<node_internals>/**"
       ],
       "program": "${workspaceFolder}/index.js",
-      "args": ["edBus", "ListQueues"]
+      // "args": ["ns", "set", "-g", "quadpay-rg-ci", "quadpay-svcbus-ci"],
+      "args": ["ns", "list"]
+      // "args": ["edBus", "ListQueues"]
       //"args": ["listConfig"]
     }
   ]

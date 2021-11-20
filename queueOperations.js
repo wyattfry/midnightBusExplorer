@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { execSync } = require('child_process');
 const { ServiceBusClient, ServiceBusAdministrationClient } = require("@azure/service-bus");
 const BuildCommandBatchesFromJson = require("./BuildCommandsFromJson.js");
 const _uniqBy = require("lodash.uniqby");
@@ -24,6 +25,8 @@ function sleep(ms) {
 
 class QueueOperations {
   constructor(serviceBusConnectionString) {
+    console.log(execSync("az servicebus namespace list -o tsv --query '[].name'").toString());
+    console.log("serviceBusConnectionString", serviceBusConnectionString)
     this.serviceBusAdministrationClient = new ServiceBusAdministrationClient(serviceBusConnectionString);
     this.serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
   }

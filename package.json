@@ -21,5 +21,10 @@
     "lodash.chunk": "^4.2.0",
     "lodash.uniqby": "^4.7.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
   }
 }

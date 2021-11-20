@@ -91,16 +91,8 @@ Below is how the program expects you json file to be set up with the messages yo
 }
 ```
 
+## Notes
 
-
-
-
-
-
-
-
-
-
-
-
-
+- [twilio - How to build a CLI with Node.js](https://www.twilio.com/blog/how-to-build-a-cli-with-node-js)
+- [twilio - guide to node.js logging](https://www.twilio.com/blog/guide-node-js-logging) -- see "Your CLI Output"
+- maybe include version number in config file?
