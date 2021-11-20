@@ -36,7 +36,6 @@ const { NamespaceOperations } = require('./namespaceOperations');
 //       break;
 //     default:
 //   }
-// };
 
 async function main() {
   const program = new Command();
@@ -67,12 +66,6 @@ async function main() {
   const readFilePromise = util.promisify(readFile);
   const writeFilePromise = util.promisify(writeFile);
   const nsOps = new NamespaceOperations(readFilePromise, writeFilePromise, execPromise);
-
-  nsCommand
-    .command('list')
-    .description('List service bus namespaces i.e. resourceGroup/namespace')
-    .option('-g, --resource-group <name>', 'limit listing to the given resource group')
-    .action((resourceGroup) => nsOps.List(resourceGroup));
 
   nsCommand
     .command('set')

@@ -3,7 +3,7 @@ const fs = require('fs');
 
 const defaultConfigPath = `${homedir()}/.midnightServiceBus.config`;
 
-const SetConnectionsString = (envName, connectionString) => {
+const SetConnectionsString = ({operationArgs}) => {
     let config = {}
   
     try {
@@ -14,24 +14,13 @@ const SetConnectionsString = (envName, connectionString) => {
     } catch(err) {
       console.log('Config not found: adding new config file'); 
     }
+    
+    let [envName, connectionString ] = operationArgs; 
   
     config[envName] = connectionString;
   
     fs.writeFileSync(defaultConfigPath, JSON.stringify(config, null, 4), );
   };
-
-  // const ListConfiguredConnections = ({configPath = defaultConfigPath}) => {
-  //   try {
-  //     if (fs.existsSync(configPath)) {
-  //       const configData = fs.readFileSync(configPath);
-  //       const loadedConfig = JSON.parse(configData);
-  //       const configKeys =  Object.keys(loadedConfig);
-  //       console.log(`Available configs: ${configKeys}`)
-  //     }
-  //   } catch(err) {
-  //     throw new Error('Required');
-  //   }
-  // }
 
   const ListConfiguredConnections = ({configPath = defaultConfigPath}) => {
     try {
