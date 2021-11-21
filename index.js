@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-const util = require('util');
-const { exec } = require('child_process');
-const { readFile, writeFile } = require('fs');
+const childProcess = require('child_process');
+const fs = require('fs');
 
 const { Command } = require('commander');
 
@@ -10,62 +9,23 @@ const { Command } = require('commander');
 
 const { NamespaceOperations } = require('./namespaceOperations');
 
-// const {
-//   SetConnectionsString,
-//   ListConfiguredConnections,
-//   LoadConnectionString } = require('./programConfig');
-
-// const processServiceBusAction = async ({ inputArgs }) => {
-//   const [connectionSettingName, busAction] = inputArgs;
-//   const serviceBusConnectionString = LoadConnectionString({ connectionSettingName });
-//   const queueOperations = new QueueOperations(serviceBusConnectionString);
-//   const operationArgs = inputArgs.slice(2);
-
-//   switch (busAction) {
-//     case 'listQueues':
-//       await queueOperations.ListQueues({ operationArgs });
-//       break;
-//     case 'monitor':
-//       await queueOperations.Monitor({ operationArgs });
-//       break;
-//     case 'peekQueue':
-//       await queueOperations.PeekMessageQueue({ operationArgs });
-//       break;
-//     case 'sendMessages':
-//       await queueOperations.SendMessages({ operationArgs });
-//       break;
-//     default:
-//   }
-
 async function main() {
   const program = new Command();
   program
     .version('0.0.2')
     .description('Terminal tool for operation on azure service busses');
 
-  // WF: change 'configure' to 'ns|namespace' to make more service bus language specific?
-  // const configureCommand = program.command('configure')
-  //   .description('Manage service bus connection configurations');
-
-  // configureCommand
-  //   .command('list')
-  //   .description('List service bus connection configurations')
-  //   .action(ListConfiguredConnections);
-
-  // configureCommand
-  //   .command('set')
-  //   .argument('<name>', 'a name for the connection, e.g. "dev"')
-  //   .argument('<connection_string>', 'the service bus connection string')
-  //   .description('Set the service bus connection')
-  //   .action((envName, connectionString) => SetConnectionsString(envName, connectionString));
-
   // ----- Namespace Operations -----
   const nsCommand = program.command('ns')
     .description('Manage service bus namespaces');
-  const execPromise = util.promisify(exec);
-  const readFilePromise = util.promisify(readFile);
-  const writeFilePromise = util.promisify(writeFile);
-  const nsOps = new NamespaceOperations(readFilePromise, writeFilePromise, execPromise);
+
+  const nsOps = new NamespaceOperations(fs, childProcess);
+
+  nsCommand
+    .command('list')
+    .description('List service bus namespaces i.e. resourceGroup/namespace')
+    .option('-g, --resource-group <name>', 'limit listing to the given resource group')
+    .action((resourceGroup) => nsOps.List(resourceGroup));
 
   nsCommand
     .command('set')

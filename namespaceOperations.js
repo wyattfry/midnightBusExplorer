@@ -1,22 +1,23 @@
 const { homedir, EOL } = require('os');
+const util = require('util');
 // const defaultConfigPath = `${homedir()}/.midnightServiceBus.config`;
 
 class NamespaceOperations {
 /**
  *
- * @param {*} readFile promisified fs.readFile f(), e.g. `util.promisify(require('fs').readFile);`
- * @param {*} writeFile promisified fs.writeFile function
- * @param {*} exec promisified child_process.exec function
+ * @param {*} fs the Node.js `fs` module, e.g. `require('fs');`
+ * @param {*} childProcess the Node.js `child_process` module, e.g. `require('child_process');`
  * @param {*} defaultConfigPath string: path to user's config file
  */
-  constructor(readFile, writeFile, exec, defaultConfigPath = `${homedir()}/.midnightServiceBus.config`) {
-    this.readFile = readFile;
-    this.writeFile = writeFile;
-    this.exec = exec;
+  constructor(fs, childProcess, defaultConfigPath = `${homedir()}/.midnightServiceBus.config`) {
+    this.readFile = util.promisify(fs.readFile);
+    this.writeFile = util.promisify(fs.writeFile);
+    this.exec = util.promisify(childProcess.exec);
     this.defaultConfigPath = defaultConfigPath;
   }
 
   static viewNamespaces = (namespaces, active) => {
+    // replace a logger via dependency injection
     console.log(namespaces
       .sort((a, b) => (`${a.resourceGroup}${a.namespace}` < `${b.resourceGroup}${b.namespace}` ? -1 : 1))
       .map((x) => {
